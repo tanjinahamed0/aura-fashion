@@ -47,10 +47,6 @@ AURA.wordmark = function (cls) {
     '</svg>';
 };
 
-AURA.sparkle = '<svg class="sparkle" viewBox="0 0 100 100" aria-hidden="true">' +
-  '<path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0 Z"/>' +
-  '</svg>';
-
 /* --------------------------------- nav ---------------------------------- */
 
 AURA.NAV = [
@@ -141,7 +137,6 @@ AURA.renderFooter = function () {
             'no orders are placed or processed here.</p>' +
         '</div>' +
       '</div>' +
-      AURA.sparkle +
     '</footer>';
 };
 
