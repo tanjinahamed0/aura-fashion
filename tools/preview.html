@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Preview harness</title>
+<style>
+  body { margin: 0; background: #888; }
+  #frame { border: 0; display: block; transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<iframe id="frame" src="about:blank" title="preview"></iframe>
+<script>
+  /* tools/preview.html?w=1440&url=/index.html
+     Renders the site inside an iframe of the requested CSS width so media
+     queries resolve against that width, then scales it into the panel. */
+  const q = new URLSearchParams(location.search);
+  const w = Number(q.get('w')) || 1440;
+  const h = Number(q.get('h')) || 1000;
+  const url = q.get('url') || '/index.html';
+  const scale = Number(q.get('scale')) || Math.min(1, (window.innerWidth - 8) / w);
+
+  const frame = document.getElementById('frame');
+  frame.src = url;
+  frame.style.width = w + 'px';
+  frame.style.height = h + 'px';
+  frame.style.transform = 'scale(' + scale + ')';
+  document.body.style.width = w * scale + 'px';
+  document.body.style.height = h * scale + 'px';
+  window.__HARNESS = { w, h, scale, url };
+
+  /* The embedded browser panel is not painted, so IntersectionObserver never
+     fires there and scroll-reveal content stays hidden. Force it visible so
+     screenshots show the real layout. */
+  if (q.get('noanim') !== '0') {
+    frame.addEventListener('load', () => {
+      const d = frame.contentDocument;
+      const style = d.createElement('style');
+      style.textContent = '*,*::before,*::after{transition:none!important}';
+      d.head.appendChild(style);
+      const reveal = () => d.querySelectorAll('[data-reveal]:not(.is-in)')
+        .forEach((el) => el.classList.add('is-in'));
+      reveal();
+      new d.defaultView.MutationObserver(reveal).observe(d.body, { childList: true, subtree: true });
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------------------
+# AURA FASHION — showcase site
+# The shipped site is plain HTML/CSS/JS with no build step and no dependencies,
+# so almost nothing belongs in version control.
+# ---------------------------------------------------------------------------
+
+# Full-resolution generated photo masters (~37 MB). These are the source images
+# for tools/build-images.ps1, which resizes them into assets/images/. The site
+# only ever loads assets/images/, so the masters stay local.
+vibe_images/
+
+# Dependencies — none today, but keep this here if a build step is ever added.
+node_modules/
+package/
+package-lock.json
+yarn.lock
+
+# Logs and local caches
+*.log
+npm-debug.log*
+.cache/
+tmp/
+temp/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+.vscode/
+.idea/
+*.swp
+
+# Credentials — never commit these even by accident
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials.json

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 200 112" fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="butt" role="img" aria-label="AURA">
+  <title>AURA</title>
+  <path d="M0,100 L0,20 A20,20 0 0 1 40,20 L40,100" />
+  <path d="M54,0 L54,80 A20,20 0 0 0 94,80 L94,0" />
+  <path d="M108,100 L108,20 A20,20 0 0 1 128,0 L134,0" />
+  <path d="M148,100 L148,20 A20,20 0 0 1 188,20 L188,100" />
+</svg>

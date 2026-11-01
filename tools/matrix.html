@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Viewport matrix</title>
+<style>
+  body { margin: 0; background: #666; }
+  iframe { display: block; border: 0; }
+</style>
+</head>
+<body>
+<script>
+  /* tools/matrix.html?url=/index.html
+     Loads one page at four widths at once and reports layout facts.
+     Each iframe has its own viewport, so media queries resolve per width. */
+  const WIDTHS = [1440, 1024, 768, 390];
+  const url = new URLSearchParams(location.search).get('url') || '/index.html';
+
+  const frames = WIDTHS.map((w) => {
+    const f = document.createElement('iframe');
+    f.style.width = w + 'px';
+    f.style.height = '900px';
+    f.src = url;
+    document.body.appendChild(f);
+    return { w, f, ready: new Promise((res) => { f.addEventListener('load', res); }) };
+  });
+
+  window.__matrix = async function () {
+    const out = [];
+
+    for (const { w, f, ready } of frames) {
+      await ready;
+      const d = f.contentDocument;
+      const win = f.contentWindow;
+
+      // Neutralise animation and lazy-loading so measurements reflect final state.
+      const s = d.createElement('style');
+      s.textContent = '*,*::before,*::after{transition:none!important}' +
+        '@media (prefers-reduced-motion: reduce){}' +
+        '[data-reveal]{opacity:1!important;transform:none!important}';
+      d.head.appendChild(s);
+      d.querySelectorAll('[data-reveal]').forEach((e) => e.classList.add('is-in'));
+      [...d.images].forEach((i) => { i.loading = 'eager'; });
+
+      await new Promise((r) => setTimeout(r, 1200));
+
+      const cs = (sel) => {
+        const e = d.querySelector(sel);
+        return e ? win.getComputedStyle(e) : null;
+      };
+      const disp = (sel) => (d.querySelector(sel) ? cs(sel).display : 'ABSENT');
+      const cols = (sel) => {
+        const c = cs(sel);
+        if (!c || c.display === 'none' || !c.gridTemplateColumns) return null;
+        return c.gridTemplateColumns.split(' ').length;
+      };
+
+      const de = d.documentElement;
+      const broken = [...d.images]
+        .filter((i) => i.complete && i.naturalWidth === 0)
+        .map((i) => i.getAttribute('src'));
+
+      // Exercise the mobile drawer where it exists.
+      let drawer = 'n/a';
+      const toggle = d.getElementById('menuToggle');
+      if (toggle && disp('.menu-toggle') !== 'none') {
+        toggle.click();
+        await new Promise((r) => setTimeout(r, 500));
+        const nav = d.getElementById('mobileNav');
+        const open = nav && nav.classList.contains('is-open');
+        drawer = open ? 'opens' : 'FAILS-to-open';
+        if (open) {
+          const box = nav.getBoundingClientRect();
+          drawer += box.right <= de.clientWidth + 2 && box.width > 200 ? ' +onscreen' : ' +OFFSCREEN';
+          d.getElementById('drawerClose').click();
+          await new Promise((r) => setTimeout(r, 500));
+          drawer += nav.hidden ? ' +closes' : ' +FAILS-to-close';
+        }
+      }
+
+      out.push({
+        vw: win.innerWidth,
+        url,
+        overflowX: de.scrollWidth - de.clientWidth,
+        title: d.title,
+        headerPresent: !!d.querySelector('.site-header'),
+        footerPresent: !!d.querySelector('.site-footer'),
+        nav: disp('.primary-nav'),
+        burger: disp('.menu-toggle'),
+        drawer,
+        productCols: cols('.product-grid'),
+        heroCols: cols('.hero') || cols('.about-hero'),
+        cards: d.querySelectorAll('.card').length,
+        imgs: d.images.length,
+        broken,
+        emptyMounts: ['.product-grid', '.cat-grid', '#pdpMount', '.pdp-info', '.acc']
+          .filter((sel) => {
+            const e = d.querySelector(sel);
+            return e && !e.innerHTML.trim();
+          }),
+        commerceWords: ['add to bag', 'add to cart', 'checkout', 'buy now',
+          'cash on delivery', 'your bag', 'quantity', '₹', 'payment']
+          .filter((t) => de.textContent.toLowerCase().includes(t))
+      });
+    }
+
+    return out;
+  };
+</script>
+</body>
+</html>
