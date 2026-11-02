@@ -3,16 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AURA FASHION — Timeless Essentials. Everyday Comfort.</title>
-<meta name="description" content="AURA FASHION is a minimalist clothing label building heavyweight tees and archive-inspired jerseys. Browse the digital catalogue.">
-<meta name="theme-color" content="#0a0a0a">
-<meta property="og:title" content="AURA FASHION — Define Aura.">
-<meta property="og:description" content="Timeless essentials. Everyday comfort. A brand showcase and digital catalogue.">
+<title>AURA FASHION — Winter Collection 2026 | Define Aura.</title>
+<meta name="description" content="AURA FASHION Winter Collection 2026: premium hoodies, winter sweatshirts, casual jackets, full sleeve t-shirts and winter essentials for men. Designed for comfort, made for everyday style.">
+<meta name="theme-color" content="#111111">
+<meta property="og:title" content="AURA FASHION — Winter Collection 2026">
+<meta property="og:description" content="Discover effortless style, everyday comfort, and timeless essentials for the colder days.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="assets/images/editorial/hero.jpg">
+<meta property="og:image" content="assets/images/hero/hero-winter-shearling.webp">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <script>document.documentElement.classList.add("js")</script>
+<link rel="preload" href="assets/fonts/PlayfairDisplay-normal-400700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="preload" href="assets/images/hero/hero-winter-shearling.webp" as="image" fetchpriority="high">
 </head>
 <body data-page="home">
 
@@ -20,73 +23,103 @@
 
 <main id="main">
 
-  <!-- Hero -->
+  <!-- C. Hero -->
   <section class="hero">
     <div class="hero-media">
-      <img src="assets/images/editorial/hero.jpg"
-           alt="A model in a plain black crew-neck t-shirt standing against a raw concrete wall"
-           width="1600" height="1067" fetchpriority="high" decoding="async">
+      <img class="hero-img" src="assets/images/hero/hero-winter-shearling.webp"
+           alt="A man in a brown shearling-lined winter jacket standing in front of a concrete wall"
+           width="1400" height="1500" fetchpriority="high" decoding="async">
+      <span class="hero-scrim" aria-hidden="true"></span>
     </div>
-    <div class="hero-panel">
-      <p class="eyebrow">Collection 01 &mdash; Everyday Essentials</p>
-      <h1 class="hero-title">Style that speaks.</h1>
-      <p class="hero-sub">Everyday essentials. Effortless style. Fewer pieces, made properly, in cloth we would wear ourselves.</p>
+    <div class="hero-copy">
+      <p class="eyebrow eyebrow--light">Winter Collection 2026</p>
+      <h1 class="hero-title">Winter, <em>Redefined.</em></h1>
+      <p class="hero-sub">Discover effortless style, everyday comfort, and timeless essentials
+        for the colder days.</p>
       <div class="hero-actions">
-        <a class="btn" href="collection.html">Explore Collection
+        <a class="btn btn--light" href="collection.html">Explore Collection
           <svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a class="btn btn--ghost" href="about.html">Our Story</a>
-      </div>
-      <div class="hero-foot">
-        <span>Est. 2026</span>
-        <span>Dhaka, Bangladesh</span>
-        <span>T-Shirts &amp; Jerseys</span>
+        <a class="btn btn--outline-light" href="about.html">Discover Our Style</a>
       </div>
     </div>
   </section>
 
-  <!-- Categories -->
-  <section class="section">
+  <!-- D. The five winter categories -->
+  <section class="section" id="categories">
     <div class="wrap">
       <header class="section-head" data-reveal>
-        <p class="eyebrow">Two families, nothing else</p>
-        <h2 class="section-title">Browse by category</h2>
+        <p class="eyebrow">Five families, one wardrobe</p>
+        <h2 class="section-title">The Winter Collection</h2>
+        <p class="lede">Designed for comfort. Made for everyday style.</p>
       </header>
       <div class="cat-grid" id="categoryGrid"></div>
       <div class="home-cta" data-reveal>
-        <a class="text-link" href="collection.html">View the full catalogue
+        <a class="text-link" href="collection.html">View every piece
           <svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Featured pieces -->
-  <section class="section section--wash section--rule">
-    <div class="wrap">
-      <header class="section-head" data-reveal>
-        <p class="eyebrow">Selected pieces</p>
-        <h2 class="section-title">Featured essentials</h2>
-      </header>
-      <div class="product-grid product-grid--four" id="featuredGrid"></div>
+  <!-- E. Seasonal banner -->
+  <section class="banner">
+    <div class="banner-media">
+      <img src="assets/images/campaigns/embrace-the-cold.webp"
+           alt="A man in a long coat and woollen scarf standing among bare winter trees"
+           width="1800" height="900" loading="lazy" decoding="async">
+      <span class="banner-scrim" aria-hidden="true"></span>
+    </div>
+    <div class="wrap banner-body">
+      <h2 class="banner-title" data-reveal>Embrace <em>the Cold.</em></h2>
+      <p class="banner-text" data-reveal style="--d:120ms">Layer up. Stay comfortable.
+        Define your aura.</p>
+      <a class="text-link text-link--light" href="collection.html?c=jackets" data-reveal style="--d:220ms">
+        Browse casual jackets
+        <svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
     </div>
   </section>
 
-  <!-- Brand introduction -->
+  <!-- New arrivals -->
+  <section class="section" id="new-arrivals">
+    <div class="wrap">
+      <header class="section-head section-head--flush" data-reveal>
+        <p class="eyebrow">Just in</p>
+        <h2 class="section-title">New this season</h2>
+      </header>
+      <div class="product-grid product-grid--four" id="newGrid"></div>
+    </div>
+  </section>
+
+  <!-- F. Editorial looks -->
+  <section class="section section--wash section--rule">
+    <div class="wrap">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow">How it is worn</p>
+        <h2 class="section-title">Everyday Winter Essentials</h2>
+        <p class="lede">Three ways to put the collection together, from the coat outward.</p>
+      </header>
+      <div class="look-grid" id="lookGrid"></div>
+    </div>
+  </section>
+
+  <!-- G. Brand story -->
   <section class="intro">
     <div class="intro-body" data-reveal>
       <p class="eyebrow">The idea</p>
-      <h2 class="intro-title">Less, but better.</h2>
-      <p>AURA started from a simple frustration: the shirts we actually wore out were the ones with nothing on them. No logo across the chest, no slogan we would grow out of &mdash; just good cloth, cut honestly.</p>
-      <p>So we kept the range deliberately small. Heavyweight cotton tees in a handful of colours that work together, and jerseys rebuilt from archive silhouettes we still like after forty years. Every piece is designed to be worn hard, washed often, and replaced only when it finally gives out.</p>
+      <h2 class="intro-title">Less, <em>but Better.</em></h2>
+      <p>At AURA FASHION, we believe great style doesn&rsquo;t need to be complicated. We focus
+        on timeless essentials, everyday comfort, and modern designs that help you express your
+        individuality.</p>
       <a class="text-link" href="about.html">Read the full story
         <svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
     <div class="intro-media">
-      <img src="assets/images/editorial/detail-fabric.jpg"
-           alt="Close detail of heavy black cotton jersey showing the knit grain and a stitched hem"
-           width="900" height="900" loading="lazy" decoding="async">
+      <img src="assets/images/lifestyle/story-folded-knits.webp"
+           alt="A stack of folded cream and oatmeal ribbed knits photographed in soft light"
+           width="1000" height="1200" loading="lazy" decoding="async">
     </div>
   </section>
 
@@ -97,25 +130,46 @@
         <div class="value" data-reveal style="--d:0ms">
           <span class="value-num">01</span>
           <div>
-            <h3>Cloth first</h3>
-            <p>Weights are stated in gsm and fibres are named. If a tee is 260 gsm open-end cotton, that is what you get.</p>
+            <h3>Built to layer</h3>
+            <p>Every piece is cut with the next one in mind — a crew that closes over a tee, a
+              coat that shuts over a hoodie.</p>
           </div>
         </div>
         <div class="value" data-reveal style="--d:110ms">
           <span class="value-num">02</span>
           <div>
-            <h3>No graphics</h3>
-            <p>Nothing is printed on top of the garment. Pattern comes from the weave, the panel and the stripe &mdash; not an ink logo.</p>
+            <h3>Warm without bulk</h3>
+            <p>Weights are stated in gsm and fibres are named, so you can judge how a piece
+              performs before you wear it.</p>
           </div>
         </div>
         <div class="value" data-reveal style="--d:220ms">
           <span class="value-num">03</span>
           <div>
-            <h3>A small range</h3>
-            <p>Two categories, twelve pieces. Short enough that we can finish every one properly, and re-run it when we get it right.</p>
+            <h3>A short range</h3>
+            <p>Five categories, twelve pieces. Nothing seasonal for the sake of it — only what
+              earns a place in a winter wardrobe.</p>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- H. Closing banner -->
+  <section class="banner">
+    <div class="banner-media">
+      <img src="assets/images/campaigns/make-winter-yours.webp"
+           alt="A man in a dark quilted jacket photographed close against a shadowed background"
+           width="1800" height="900" loading="lazy" decoding="async">
+      <span class="banner-scrim" aria-hidden="true"></span>
+    </div>
+    <div class="wrap banner-body">
+      <h2 class="banner-title" data-reveal>Make <em>Winter Yours.</em></h2>
+      <p class="banner-text" data-reveal style="--d:120ms">Find your style. Feel your comfort.
+        Define your aura.</p>
+      <a class="btn btn--light" href="collection.html" data-reveal style="--d:220ms">Explore Aura
+        <svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
     </div>
   </section>
 

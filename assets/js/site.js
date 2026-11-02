@@ -51,14 +51,39 @@ AURA.wordmark = function (cls) {
 
 AURA.NAV = [
   { label: 'Home', href: 'index.html', id: 'home' },
-  { label: 'Collection', href: 'collection.html', id: 'collection' },
-  { label: 'About', href: 'about.html', id: 'about' }
+  { label: 'New Arrivals', href: 'collection.html?c=new', id: 'new' },
+  { label: 'Winter Collection', href: 'collection.html', id: 'collection' },
+  { label: 'About Us', href: 'about.html', id: 'about' },
+  { label: 'Contact', href: 'about.html#contact', id: 'contact' }
 ];
 
-AURA.renderHeader = function () {
+/* One nav item is current per page. The collection page serves two of them —
+   the whole range and the New Arrivals cut — so the query decides which. */
+AURA.activeNavId = function () {
   var page = document.body.getAttribute('data-page');
+  if (page === 'product') return 'collection';
+  if (page === 'collection') return AURA.qs('c') === 'new' ? 'new' : 'collection';
+  if (page === 'about') return window.location.hash === '#contact' ? 'contact' : 'about';
+  return 'home';
+};
+
+/* Re-mark the header nav after the URL changes without a reload. */
+AURA.syncNav = function () {
+  var activeId = AURA.activeNavId();
+  Array.prototype.forEach.call(document.querySelectorAll('.nav-link'), function (link) {
+    var href = link.getAttribute('href') || '';
+    var id = (AURA.NAV.filter(function (n) { return n.href === href; })[0] || {}).id;
+    var active = id === activeId;
+    link.classList.toggle('is-active', active);
+    if (active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+};
+
+AURA.renderHeader = function () {
+  var activeId = AURA.activeNavId();
   var links = AURA.NAV.map(function (n) {
-    var active = n.id === page || (page === 'product' && n.id === 'collection');
+    var active = n.id === activeId;
     return '<a class="nav-link' + (active ? ' is-active' : '') + '" href="' + n.href + '"' +
       (active ? ' aria-current="page"' : '') + '>' + AURA.esc(n.label) + '</a>';
   }).join('');
@@ -102,7 +127,6 @@ AURA.renderHeader = function () {
 };
 
 AURA.renderFooter = function () {
-  var s = AURA.BRAND.social;
   var year = new Date().getFullYear();
 
   return '' +
@@ -110,30 +134,37 @@ AURA.renderFooter = function () {
       '<div class="wrap footer-inner">' +
         '<div class="footer-brand">' +
           AURA.wordmark('wordmark wordmark--footer') +
-          '<p class="footer-slogan">' + AURA.esc(AURA.BRAND.slogan) + '</p>' +
+          '<p class="footer-slogan">' + AURA.esc(AURA.BRAND.sloganDisplay) + '</p>' +
         '</div>' +
 
         '<nav class="footer-nav" aria-label="Footer">' +
           '<a href="index.html">Home</a>' +
-          '<a href="collection.html">Collection</a>' +
-          '<a href="collection.html?c=tshirts">T-Shirts</a>' +
-          '<a href="collection.html?c=jerseys">Jerseys</a>' +
-          '<a href="about.html">About</a>' +
+          '<a href="collection.html?c=new">New Arrivals</a>' +
+          '<a href="collection.html">Winter Collection</a>' +
+          '<a href="collection.html?c=hoodies">Premium Hoodies</a>' +
+          '<a href="collection.html?c=sweatshirts">Winter Sweatshirts</a>' +
+          '<a href="collection.html?c=jackets">Casual Jackets</a>' +
+          '<a href="collection.html?c=fullsleeve">Full Sleeve T-Shirts</a>' +
+          '<a href="collection.html?c=essentials">Winter Essentials</a>' +
+          '<a href="about.html">About Us</a>' +
+          '<a href="about.html#contact">Contact</a>' +
         '</nav>' +
 
         '<div class="footer-social">' +
-          '<a href="' + AURA.esc(s.facebook.url) + '" target="_blank" rel="noopener noreferrer">' +
-            AURA.icon('facebook') + '<span>Facebook</span></a>' +
-          '<a href="' + AURA.esc(s.instagram.url) + '" target="_blank" rel="noopener noreferrer">' +
-            AURA.icon('instagram') + '<span>Instagram</span></a>' +
+          '<span class="social-static">' +
+            AURA.icon('facebook') + '<span>Facebook</span></span>' +
+          '<span class="social-static">' +
+            AURA.icon('instagram') + '<span>Instagram</span></span>' +
           '<a href="mailto:' + AURA.esc(AURA.BRAND.email) + '">' +
             AURA.icon('mail') + '<span>Email</span></a>' +
         '</div>' +
 
         '<div class="footer-meta">' +
           '<p>&copy; ' + year + ' ' + AURA.esc(AURA.BRAND.name) +
-            '. All rights reserved.</p>' +
-          '<p class="footer-note">A brand showcase and digital catalogue — ' +
+            '. All Rights Reserved.</p>' +
+          '<p class="footer-note">' + AURA.esc(AURA.BRAND.collection) + ' &mdash; ' +
+            AURA.esc(AURA.BRAND.location) + '</p>' +
+          '<p class="footer-note">A brand showcase and digital catalogue &mdash; ' +
             'no orders are placed or processed here.</p>' +
         '</div>' +
       '</div>' +
@@ -187,7 +218,10 @@ AURA.wireReveal = function () {
   if (!nodes.length) return;
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced || !('IntersectionObserver' in window)) {
+  /* IntersectionObserver only delivers callbacks while the page is being
+     rendered, so a page that boots in a hidden tab would otherwise leave every
+     [data-reveal] node at opacity 0. Reveal immediately in that case. */
+  if (reduced || document.hidden || !('IntersectionObserver' in window)) {
     nodes.forEach(function (n) { n.classList.add('is-in'); });
     return;
   }
@@ -221,8 +255,9 @@ AURA.productCard = function (p, opts) {
         'aria-label="' + AURA.esc(p.name) + ' — view details">' +
         '<img src="' + AURA.esc(p.image) + '" alt="' + AURA.esc(p.name) +
           ', ' + AURA.esc(p.categoryName) + ' by ' + AURA.esc(AURA.BRAND.name) + '" ' +
-          'width="800" height="1200" loading="' + (opts.eager ? 'eager' : 'lazy') +
+          'width="900" height="1120" loading="' + (opts.eager ? 'eager' : 'lazy') +
           '" decoding="async">' +
+        (p.isNew ? '<span class="card-flag">New</span>' : '') +
         '<span class="card-view">View<em>&rsaquo;</em></span>' +
       '</a>' +
       '<div class="card-body">' +

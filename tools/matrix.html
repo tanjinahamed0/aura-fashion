@@ -89,8 +89,23 @@
         burger: disp('.menu-toggle'),
         drawer,
         productCols: cols('.product-grid'),
+        catCols: cols('.cat-grid'),
+        lookCols: cols('.look-grid'),
+        valueCols: cols('.value-strip'),
+        heroBox: (() => {
+          const h = d.querySelector('.hero');
+          if (!h) return null;
+          const b = h.getBoundingClientRect();
+          const copy = d.querySelector('.hero-copy');
+          return {
+            w: Math.round(b.width), h: Math.round(b.height),
+            copyOpacity: copy ? getComputedStyle(copy.firstElementChild || copy).opacity : null
+          };
+        })(),
         heroCols: cols('.hero') || cols('.about-hero'),
         cards: d.querySelectorAll('.card').length,
+        catTiles: d.querySelectorAll('.cat-tile').length,
+        lookCards: d.querySelectorAll('.look-card').length,
         imgs: d.images.length,
         broken,
         emptyMounts: ['.product-grid', '.cat-grid', '#pdpMount', '.pdp-info', '.acc']

@@ -79,6 +79,12 @@ for (const c of AURA.CATEGORY_CARDS) {
   if (!fs.existsSync(path.join(root, c.image))) problems.push(`missing category image ${c.image}`);
 }
 
+for (const look of AURA.LOOKS) {
+  if (!fs.existsSync(path.join(root, look.image))) problems.push(`missing look image ${look.image}`);
+  const target = look.href.split('?')[0];
+  if (!PAGES.includes(target)) problems.push(`look link target not a page: ${look.href}`);
+}
+
 /* 4 — forbidden commerce language across every shipped file */
 const source = PAGES.map((p) => fs.readFileSync(path.join(root, p), 'utf8')).join('\n') +
   fs.readFileSync(path.join(root, 'assets/js/data.js'), 'utf8') + runtime +
@@ -87,6 +93,12 @@ const source = PAGES.map((p) => fs.readFileSync(path.join(root, p), 'utf8')).joi
 const lower = source.toLowerCase();
 for (const term of FORBIDDEN) {
   if (lower.includes(term)) problems.push(`forbidden term present: "${term}"`);
+}
+
+/* 4b — the summer imagery is retired: nothing shipped may still point at a
+   .jpg asset, since every Winter 2026 photograph is served as WebP. */
+for (const m of source.matchAll(/assets\/images\/[\w./-]+\.jpe?g/g)) {
+  problems.push(`retired summer asset still referenced: ${m[0]}`);
 }
 
 /* 5 — HTTP reachability of each page and every product deep link */
@@ -107,8 +119,8 @@ for (const term of FORBIDDEN) {
   }
 
   notes.push(`products: ${AURA.PRODUCTS.length}`);
-  notes.push(`tshirts: ${AURA.countIn('tshirts')}, jerseys: ${AURA.countIn('jerseys')}`);
-  notes.push(`featured: ${AURA.featured().length}`);
+  notes.push(AURA.CATEGORIES.filter((c) => c.id !== 'all')
+    .map((c) => `${c.id}: ${AURA.countIn(c.id)}`).join(', '));
   notes.push(`urls probed: ${urls.length}`);
 
   console.log(notes.join('\n'));

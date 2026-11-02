@@ -11,20 +11,23 @@
   }
 
   function list() {
+    if (current === 'new') {
+      return AURA.PRODUCTS.filter(function (p) { return p.isNew; });
+    }
     return current === 'all'
       ? AURA.PRODUCTS
       : AURA.PRODUCTS.filter(function (p) { return p.category === current; });
   }
 
+  function title() {
+    var cat = AURA.CATEGORIES.filter(function (c) { return c.id === current; })[0];
+    document.title = (current === 'all' ? 'Winter Collection' : cat.label + ' — Winter Collection') +
+      ' — AURA FASHION';
+  }
+
   function syncUrl() {
     var url = 'collection.html' + (current === 'all' ? '' : '?c=' + encodeURIComponent(current));
     window.history.replaceState({ c: current }, '', url);
-  }
-
-  function title() {
-    var cat = AURA.CATEGORIES.filter(function (c) { return c.id === current; })[0];
-    document.title = (current === 'all' ? 'Collection' : cat.label + ' — Collection') +
-      ' — AURA FASHION';
   }
 
   function paint() {
@@ -39,6 +42,7 @@
     });
 
     title();
+    AURA.syncNav();
     AURA.wireReveal();
   }
 

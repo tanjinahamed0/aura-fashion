@@ -17,6 +17,7 @@
   const q = new URLSearchParams(location.search);
   const w = Number(q.get('w')) || 1440;
   const h = Number(q.get('h')) || 1000;
+  const y = Number(q.get('y')) || 0;
   const url = q.get('url') || '/index.html';
   const scale = Number(q.get('scale')) || Math.min(1, (window.innerWidth - 8) / w);
 
@@ -36,14 +37,29 @@
     frame.addEventListener('load', () => {
       const d = frame.contentDocument;
       const style = d.createElement('style');
-      style.textContent = '*,*::before,*::after{transition:none!important}';
+      /* ?css= lets a screenshot pass pin vh-sized blocks when the capture
+         window is much taller than a real viewport. */
+      style.textContent = '*,*::before,*::after{transition:none!important}' +
+        (q.get('css') || '');
       d.head.appendChild(style);
       const reveal = () => d.querySelectorAll('[data-reveal]:not(.is-in)')
         .forEach((el) => el.classList.add('is-in'));
       reveal();
       new d.defaultView.MutationObserver(reveal).observe(d.body, { childList: true, subtree: true });
+      /* Lazy images below the fold never request in a screenshot pass. */
+      const eager = () => [...d.images].forEach((i) => { i.loading = 'eager'; });
+      eager();
+      new d.defaultView.MutationObserver(eager).observe(d.body, { childList: true, subtree: true });
     });
   }
+
+  /* ?y=1200 scrolls the embedded page, so a screenshot can capture any band of
+     it without the vh-based hero stretching to fill a very tall window. */
+  frame.addEventListener('load', () => {
+    const win = frame.contentWindow;
+    win.document.documentElement.style.scrollBehavior = 'auto';
+    win.scrollTo(0, y);
+  });
 </script>
 </body>
 </html>

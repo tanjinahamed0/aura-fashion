@@ -25,7 +25,7 @@
       return '<button class="thumb' + (i === 0 ? ' is-active' : '') + '" type="button" ' +
         'data-view="' + i + '" aria-label="' + AURA.esc(v.label) + '" aria-pressed="' +
         (i === 0) + '">' +
-        '<img src="' + src + '" alt="" width="800" height="1200" loading="lazy" ' +
+        '<img src="' + src + '" alt="" width="900" height="1120" loading="lazy" ' +
         'decoding="async"' + viewStyle(v) + '>' +
         '</button>';
     }).join('');
@@ -36,7 +36,7 @@
           '<span class="pdp-tag-badge">' + AURA.esc(badge) + '</span>' +
           '<img id="pdpMain" src="' + src + '" alt="' + AURA.esc(p.name) +
             ' — ' + AURA.esc(p.categoryName) + ' by ' + AURA.esc(AURA.BRAND.name) + '" ' +
-            'width="800" height="1200" fetchpriority="high" decoding="async">' +
+            'width="900" height="1120" fetchpriority="high" decoding="async">' +
         '</div>' +
         '<div class="pdp-thumbs" role="group" aria-label="Product views">' + thumbs + '</div>' +
       '</div>';
@@ -125,7 +125,7 @@
   function notFound() {
     document.getElementById('crumbs').innerHTML =
       '<a href="index.html">Home</a><span class="sep">/</span>' +
-      '<a href="collection.html">Collection</a><span class="sep">/</span>' +
+      '<a href="collection.html">Winter Collection</a><span class="sep">/</span>' +
       '<span class="current">Not found</span>';
 
     document.getElementById('pdpMount').innerHTML =
@@ -179,7 +179,7 @@
 
     document.getElementById('crumbs').innerHTML =
       '<a href="index.html">Home</a><span class="sep">/</span>' +
-      '<a href="collection.html">Collection</a><span class="sep">/</span>' +
+      '<a href="collection.html">Winter Collection</a><span class="sep">/</span>' +
       '<a href="collection.html?c=' + AURA.esc(p.category) + '">' +
         AURA.esc(p.categoryName) + '</a><span class="sep">/</span>' +
       '<span class="current">' + AURA.esc(p.name) + '</span>';
